@@ -16,6 +16,7 @@ function App() {
     if (token) {
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
+    console.log("token",token)
     return (
         <Router>
             <Routes>

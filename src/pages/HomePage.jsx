@@ -32,7 +32,6 @@ const HomePage = () => {
 const styles = {
     container: {
         textAlign: "center",
-        paddingTop: 100,
         fontFamily: "sans-serif",
     },
     logo: {
