@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import Header from "./Dashboard/Header";
 import {getTokenPayload} from "../auth/PrivateRoute";
-import axios from "axios";
+import axios from "../auth/axios";
 import Loader from "../components/Loader";
 import ExcelIcon from "../assets/excel-icon.png";
 import MultiSelect from "../components/filter/MultiSelect";
@@ -65,16 +65,16 @@ const ExportDataPage = () => {
         setLoading(true);
         try {
             const [res1, res2, res3, res4, res5, res6, res7, res8, res9, res10] = await Promise.all([
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/segment?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/trade-name?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/manufacturing-company?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/inn?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/atc1?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/atc2?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/atc3?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/dosage?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/pack-quantities?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/drug-form?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/segment?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/trade-name?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/manufacturing-company?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/inn?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/atc1?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/atc2?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/atc3?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/dosage?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/pack-quantities?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/drug-form?userId=${payload.id}`),
             ]);
             setAllMarketTypes(res1.data);
             setMarketType(res1.data.map(opt => opt.name))
@@ -166,7 +166,7 @@ const ExportDataPage = () => {
         };
         try {
             const response = await axios.post(
-                "https://vigilant-youthfulness-production.up.railway.app/api/drugs/export-custom",
+                "/api/drugs/export-custom",
                 body1,
                 {
                     responseType: 'blob'

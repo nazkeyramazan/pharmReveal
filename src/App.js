@@ -6,7 +6,7 @@ import PrivateRoute from "../src/auth/PrivateRoute";
 import DashboardPage from "./pages/DashboardPage";
 import ExportDataPage from "./pages/ExportDataPage";
 import AdminPage from "./pages/AdminPage";
-import axios from "axios";
+import axios from "../src/auth/axios";
 import ExcelUpload from "./pages/ExportExcel";
 import LogsPage from "./pages/LogsPage";
 import './App.css'

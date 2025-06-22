@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import axios from "axios";
+import axios from "../auth/axios";
 import {useNavigate} from "react-router-dom";
 import MultiSelect from "../components/filter/MultiSelect";
 import dayjs from "dayjs";
@@ -37,16 +37,16 @@ const AdminPage = () => {
         setFilterLoader(true);
         try {
             const [res1, res2, res3, res4, res5, res6, res7, res8, res9, res10] = await Promise.all([
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/segment?userId=${id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/trade-name?userId=${id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/manufacturing-company?userId=${id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/inn?userId=${id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/atc1?userId=${id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/atc2?userId=${id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/atc3?userId=${id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/dosage?userId=${id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/pack-quantities?userId=${id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/drug-form?userId=${id}`),
+                axios.get(`/api/user-access/reference/segment?userId=${id}`),
+                axios.get(`/api/user-access/reference/trade-name?userId=${id}`),
+                axios.get(`/api/user-access/reference/manufacturing-company?userId=${id}`),
+                axios.get(`/api/user-access/reference/inn?userId=${id}`),
+                axios.get(`/api/user-access/reference/atc1?userId=${id}`),
+                axios.get(`/api/user-access/reference/atc2?userId=${id}`),
+                axios.get(`/api/user-access/reference/atc3?userId=${id}`),
+                axios.get(`/api/user-access/reference/dosage?userId=${id}`),
+                axios.get(`/api/user-access/reference/pack-quantities?userId=${id}`),
+                axios.get(`/api/user-access/reference/drug-form?userId=${id}`),
             ]);
             setMarketType(res1.data.map(opt => opt.id))
 
@@ -77,16 +77,16 @@ const AdminPage = () => {
         setFilterLoader(true);
         try {
             const [res1, res2, res3, res4, res5, res6, res7, res8, res9, res10] = await Promise.all([
-                axios.get("https://vigilant-youthfulness-production.up.railway.app/api/reference/segment"),
-                axios.get("https://vigilant-youthfulness-production.up.railway.app/api/reference/trade-name"),
-                axios.get("https://vigilant-youthfulness-production.up.railway.app/api/reference/manufacturing-company"),
-                axios.get("https://vigilant-youthfulness-production.up.railway.app/api/reference/inn"),
-                axios.get("https://vigilant-youthfulness-production.up.railway.app/api/reference/atc1"),
-                axios.get("https://vigilant-youthfulness-production.up.railway.app/api/reference/atc2"),
-                axios.get("https://vigilant-youthfulness-production.up.railway.app/api/reference/atc3"),
-                axios.get("https://vigilant-youthfulness-production.up.railway.app/api/reference/dosage"),
-                axios.get("https://vigilant-youthfulness-production.up.railway.app/api/reference/pack-quantities"),
-                axios.get("https://vigilant-youthfulness-production.up.railway.app/api/reference/drug-form"),
+                axios.get("/api/reference/segment"),
+                axios.get("/api/reference/trade-name"),
+                axios.get("/api/reference/manufacturing-company"),
+                axios.get("/api/reference/inn"),
+                axios.get("/api/reference/atc1"),
+                axios.get("/api/reference/atc2"),
+                axios.get("/api/reference/atc3"),
+                axios.get("/api/reference/dosage"),
+                axios.get("/api/reference/pack-quantities"),
+                axios.get("/api/reference/drug-form"),
             ]);
             setAllMarketTypes(res1.data);
             setAllTradeNames(res2.data); // сохраняем ответ
@@ -115,7 +115,7 @@ const AdminPage = () => {
     const getUsersList = async () => {
         setFilterLoader(true)
         try {
-            const response = await axios.get('https://vigilant-youthfulness-production.up.railway.app/api/v1/users');
+            const response = await axios.get('/api/v1/users');
             setUsers(response.data);
         } catch (error) {
             console.error('Error fetching users:', error);
@@ -131,7 +131,7 @@ const AdminPage = () => {
         setFilterLoader(true)
         try {
             const response = await axios.post(
-                "https://vigilant-youthfulness-production.up.railway.app/api/v1/auth/register", // замените на ваш реальный URL
+                "/api/v1/auth/register", // замените на ваш реальный URL
                 {
                     firstname: newUser.firstname,
                     lastname: newUser.lastname,
@@ -158,7 +158,7 @@ const AdminPage = () => {
     const filterPermissions = async () => {
         setFilterLoader(true)
         try {
-            await axios.post("https://vigilant-youthfulness-production.up.railway.app/api/access/assign", {
+            await axios.post("/api/access/assign", {
                 userId: editingUser.id,
                 accesses: [
                     {refType: "SEGMENT", refIds: marketType},
@@ -183,7 +183,7 @@ const AdminPage = () => {
     const deleteUser = async (id) => {
         try {
             setFilterLoader(true)
-            await axios.delete(`https://vigilant-youthfulness-production.up.railway.app/api/v1/users/${id}`, {
+            await axios.delete(`/api/v1/users/${id}`, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }

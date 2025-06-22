@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+;
 import dayjs from "dayjs";
 import {useNavigate} from "react-router-dom";
 const button = {
@@ -17,7 +17,7 @@ const LogsPage = () => {
     const navigate = useNavigate()
     useEffect(() => {
         axios
-            .get("https://vigilant-youthfulness-production.up.railway.app/api/audit?page=0&size=10000", {
+            .get("/api/audit?page=0&size=10000", {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem("token")}`
                 }

@@ -9,7 +9,7 @@ import MultiSelect from "../components/filter/MultiSelect";
 import '../App.css'
 import QuarterRangePicker from "../components/filter/RangePickerC";
 import dayjs from "dayjs";
-import axios from "axios";
+import axios from "../auth/axios";
 import {getTokenPayload} from "../auth/PrivateRoute";
 import SectionLoader from "../components/SectionLoader";
 import ExcelIcon from "../assets/excel-icon.png";
@@ -49,16 +49,16 @@ const DashboardPage = () => {
         setFilterLoader(true);
         try {
             const [res1, res2, res3, res4, res5, res6, res7, res8, res9, res10] = await Promise.all([
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/segment?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/trade-name?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/manufacturing-company?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/inn?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/atc1?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/atc2?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/atc3?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/dosage?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/pack-quantities?userId=${payload.id}`),
-                axios.get(`https://vigilant-youthfulness-production.up.railway.app/api/user-access/reference/drug-form?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/segment?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/trade-name?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/manufacturing-company?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/inn?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/atc1?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/atc2?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/atc3?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/dosage?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/pack-quantities?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/drug-form?userId=${payload.id}`),
             ]);
             setAllMarketTypes(res1.data);
             setMarketType(res1.data.map(opt => opt.name))
@@ -154,7 +154,7 @@ const DashboardPage = () => {
         };
         try {
             const response = await axios.post(
-                "https://vigilant-youthfulness-production.up.railway.app/api/drugs/filter",
+                "/api/drugs/filter",
                 body
             );
             console.log("response", response)
@@ -185,7 +185,7 @@ const DashboardPage = () => {
         setCompanyLoader(true);
         try {
             const response = await axios.post(
-                `https://vigilant-youthfulness-production.up.railway.app/api/drugs/top-companies?metric=${metricCompany}`,
+                `/api/drugs/top-companies?metric=${metricCompany}`,
                 body
             );
             setTopCompanies(response.data)
@@ -204,7 +204,7 @@ const DashboardPage = () => {
         setProductLoader(true)
         try {
             const response = await axios.post(
-                `https://vigilant-youthfulness-production.up.railway.app/api/drugs/top-products?metric=${metricCompany}`,
+                `/api/drugs/top-products?metric=${metricCompany}`,
                 body
             );
             setTopProducts(response.data)
@@ -223,7 +223,7 @@ const DashboardPage = () => {
         setMoleculeLoader(true)
         try {
             const response = await axios.post(
-                `https://vigilant-youthfulness-production.up.railway.app/api/drugs/top-molecules?metric=${metricCompany}`,
+                `/api/drugs/top-molecules?metric=${metricCompany}`,
                 body
             );
             setTopMolecules(response.data)
@@ -242,7 +242,7 @@ const DashboardPage = () => {
         setatcLoader(true)
         try {
             const response = await axios.post(
-                `https://vigilant-youthfulness-production.up.railway.app/api/drugs/top-atc1?metric=${metricATC}`,
+                `/api/drugs/top-atc1?metric=${metricATC}`,
                 body
             );
             setTopATC(response.data)
@@ -262,7 +262,7 @@ const DashboardPage = () => {
         setMarketLoader(true)
         try {
             const response = await axios.post(
-                `https://vigilant-youthfulness-production.up.railway.app/api/drugs/top-segment?metric=${metricATC}`,
+                `/api/drugs/top-segment?metric=${metricATC}`,
                 body
             );
             setTopMarket(response.data)
@@ -295,7 +295,7 @@ const DashboardPage = () => {
         };
         try {
             const response = await axios.post(
-                "https://vigilant-youthfulness-production.up.railway.app/api/drugs/export",
+                "/api/drugs/export",
                 body1,
                 {
                     responseType: 'blob'
@@ -326,7 +326,7 @@ const DashboardPage = () => {
         setValueLoader(true)
         try {
             const response = await axios.post(
-                `https://vigilant-youthfulness-production.up.railway.app/api/drugs/total-values`,
+                `/api/drugs/total-values`,
                 body
             );
             setValue(response.data)

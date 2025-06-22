@@ -20,7 +20,7 @@ const ExcelUpload = () => {
 
         try {
             const response = await axios.post(
-                'https://vigilant-youthfulness-production.up.railway.app/api/drugs/upload-async',
+                '/api/drugs/upload-async',
                 formData,
                 {
                     headers: {

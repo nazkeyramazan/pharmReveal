@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import logo from "../assets/logo.png";
-import axios from "axios";
+import axios from "../auth/axios";
 import {getTokenPayload} from "../auth/PrivateRoute";
 import Loader from "../components/Loader";
 
@@ -16,7 +16,7 @@ const LoginPage = () => {
         e.preventDefault();
         setLoading(true)
         try {
-            const response = await axios.post("https://vigilant-youthfulness-production.up.railway.app/api/v1/auth/authenticate", {
+            const response = await axios.post("/api/v1/auth/authenticate", {
                 email:login,
                 password:password,
             });
