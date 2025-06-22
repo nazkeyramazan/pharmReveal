@@ -1,25 +1,78 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {BrowserRouter as Router, Routes, Route, Navigate} from "react-router-dom";
+import LoginPage from "../src/pages/LoginPage";
+import HomePage from "../src/pages/HomePage";
+import PrivateRoute from "../src/auth/PrivateRoute";
+import DashboardPage from "./pages/DashboardPage";
+import ExportDataPage from "./pages/ExportDataPage";
+import AdminPage from "./pages/AdminPage";
+import axios from "axios";
+import ExcelUpload from "./pages/ExportExcel";
+import LogsPage from "./pages/LogsPage";
+import './App.css'
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const token = localStorage.getItem("token");
+    if (token) {
+        axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    }
+    return (
+        <Router>
+            <Routes>
+                <Route
+                    path="/login"
+                    element={<LoginPage />}
+                />
+                <Route
+                    path="/main"
+                    element={
+                        <PrivateRoute>
+                            <HomePage />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/dashboard"
+                    element={
+                        <PrivateRoute >
+                            <DashboardPage />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/export"
+                    element={
+                        <PrivateRoute >
+                            <ExportDataPage />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/administration"
+                    element={
+                        <PrivateRoute requiredRole="ADMIN" >
+                            <AdminPage />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path="/exportExcel"
+                    element={
+                        <PrivateRoute requiredRole="ADMIN" >
+                            <ExcelUpload />
+                        </PrivateRoute>
+                    }
+                />
+                <Route
+                    path={"/logs"}
+                    element={<PrivateRoute requiredRole="ADMIN">
+                        <LogsPage />
+                    </PrivateRoute> }
+                    />
+                <Route path="*" element={<Navigate to="/login" />} />
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;
