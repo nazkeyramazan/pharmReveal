@@ -31,9 +31,9 @@ const columns = [
 
 const columns2 = [
     {name: "Volume Units", value: "volumeInUnits"},
+    {name: "Volume SU", value: "volumeInSU"},
     {name: "Value GEL", value: "valueInGel"},
     {name: "Value USD", value: "valueInUsd"},
-    {name: "Volume SU", value: "volumeInSU"},
 ];
 
 const ExportDataPage = () => {
