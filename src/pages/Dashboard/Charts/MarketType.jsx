@@ -22,52 +22,53 @@ const MarketTypeChart = ({data}) => {
                 <button onClick={() => exportToExcelCharts(data)} style={{border: "none"}}>
                     <img src={ExcelIcon} alt="Excel Icon" style={styles.icon}/></button>
             </div>
-            <ResponsiveContainer width="100%" height={300}>
-                <PieChart>
-                    <Pie
-                        data={data}
-                        dataKey="totalValueInPercent"
-                        nameKey="companyName"
-                        cx="50%"
-                        cy="50%"
-                        outerRadius={100}
-                        fill="#8884d8"
-                        label={<RenderCustomLabel/>}
-                    >
-                        {data.map((entry, index) => (
-                            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]}/>
-                        ))}
-                    </Pie>
-                    <Tooltip/>
-                    <Legend/>
-                </PieChart>
-            </ResponsiveContainer>
-        </div>
-    );
-};
+                <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                        <Pie
+                            data={data}
+                            dataKey="totalValueInPercent"
+                            nameKey="companyName"
+                            cx="50%"
+                            cy="50%"
+                            outerRadius={92}
+                            fill="#8884d8"
+                            labelLine={false}
+                            label={<RenderCustomLabel/>}
+                        >
+                            {data.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]}/>
+                            ))}
+                        </Pie>
+                        <Tooltip/>
+                        <Legend/>
+                    </PieChart>
+                </ResponsiveContainer>
+            </div>
+            );
+            };
 
-const styles = {
-    wrapper: {
-        backgroundColor: "#fff",
-        padding: 20,
-        borderRadius: 12,
-        boxShadow: "0 0 10px rgba(0,0,0,0.05)",
-    },
-    title: {
-        marginBottom: 10,
-        color: "#333",
-    },
-    container: {
-        display: "flex",
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    icon: {
-        width: "25px",
-        height: "25px",
-        cursor: "pointer",
-    },
-};
+            const styles = {
+            wrapper: {
+            backgroundColor: "#fff",
+            padding: 20,
+            borderRadius: 12,
+            boxShadow: "0 0 10px rgba(0,0,0,0.05)",
+        },
+            title: {
+            marginBottom: 10,
+            color: "#333",
+        },
+            container: {
+            display: "flex",
+            flexDirection: 'row',
+            justifyContent: 'center',
+            alignItems: 'center',
+        },
+            icon: {
+            width: "25px",
+            height: "25px",
+            cursor: "pointer",
+        },
+        };
 
-export default MarketTypeChart;
+            export default MarketTypeChart;

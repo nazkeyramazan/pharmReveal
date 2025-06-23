@@ -1,3 +1,4 @@
+import axios from "../auth/axios";
 import React, {useEffect, useState} from "react";
 import Header from "./Dashboard/Header"
 import TopProductsChart from "./Dashboard/Charts/TopProducts";
@@ -9,7 +10,6 @@ import MultiSelect from "../components/filter/MultiSelect";
 import '../App.css'
 import QuarterRangePicker from "../components/filter/RangePickerC";
 import dayjs from "dayjs";
-import axios from "../auth/axios";
 import {getTokenPayload} from "../auth/PrivateRoute";
 import SectionLoader from "../components/SectionLoader";
 import ExcelIcon from "../assets/excel-icon.png";
