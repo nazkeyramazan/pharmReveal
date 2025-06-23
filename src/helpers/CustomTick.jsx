@@ -1,14 +1,24 @@
 import React from "react";
 
-// Кастомный компонент для XAxis
 export const CustomTick = ({ x, y, payload }) => {
-    const words = payload.value.length > 12
-        ? [payload.value.slice(0, 12), payload.value.slice(12, 24)]
-        : [payload.value];
+    const text = payload.value || "";
+    const maxCharsPerLine = 8;
+
+    // Разбиваем текст на куски по 9 символов
+    const lines = [];
+    for (let i = 0; i < 3; i++) {
+        const part = text.slice(i * maxCharsPerLine, (i + 1) * maxCharsPerLine);
+        if (part) lines.push(part);
+    }
+
+    // Добавляем троеточие, если текст слишком длинный
+    if (text.length > maxCharsPerLine * 3) {
+        lines[2] = lines[2].slice(0, maxCharsPerLine - 1) + '…';
+    }
 
     return (
         <g transform={`translate(${x},${y})`}>
-            {words.map((line, index) => (
+            {lines.map((line, index) => (
                 <text
                     key={index}
                     x={0}

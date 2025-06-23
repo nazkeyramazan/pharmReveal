@@ -23,7 +23,7 @@ const TopMoleculesChart = ({data}) => {
                     <img src={ExcelIcon} alt="Excel Icon" style={styles.icon}/></button>
             </div>
             <ResponsiveContainer width="100%" height={300}>
-                <BarChart data={data} margin={{top: 20, right: 30, left: 30, bottom: 15}}>
+                <BarChart data={data} margin={{top: 10, right: 30, left: 30, bottom: 20}}>
                     <CartesianGrid strokeDasharray="3 3"/>
                     <XAxis dataKey="companyName"
                            interval={0}
