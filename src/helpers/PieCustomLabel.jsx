@@ -1,7 +1,7 @@
 export const RenderCustomLabel = ({ cx, cy, midAngle, innerRadius, outerRadius, percent, name }) => {
     const RADIAN = Math.PI / 180;
     // Увеличиваем расстояние от центра — например, +15 пикселей к outerRadius
-    const radius = outerRadius + 28;
+    const radius = outerRadius + 21;
     const x = cx + radius * Math.cos(-midAngle * RADIAN);
     const y = cy + radius * Math.sin(-midAngle * RADIAN);
 

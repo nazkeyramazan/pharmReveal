@@ -26,7 +26,7 @@ export const CustomTick = ({ x, y, payload }) => {
                     dy={16}
                     textAnchor="middle"
                     fill="#666"
-                    fontSize={12}
+                    fontSize={10}
                 >
                     {line}
                 </text>

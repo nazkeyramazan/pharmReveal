@@ -5,6 +5,8 @@ import axios from "../auth/axios";
 import Loader from "../components/Loader";
 import ExcelIcon from "../assets/excel-icon.png";
 import MultiSelect from "../components/filter/MultiSelect";
+import QuarterRangePicker from "../components/filter/RangePickerC";
+import dayjs from "dayjs";
 const columns = [
     {name: "Year", value: "year"},
     {name: "Segment", value: "segment"},
@@ -59,6 +61,7 @@ const ExportDataPage = () => {
     const [packageSize, setPackageSize] = useState([]);
     const [dosage, setDosage] = useState([]);
     const payload = getTokenPayload();
+    const [selectedRange, setSelectedRange] = useState(null);
 
 
     const fetchAll = async () => {
@@ -124,7 +127,7 @@ const ExportDataPage = () => {
     };
     const handleCheckboxToggle = (field) => {
         const triggerFields = ["segment", "tradeName","manufacturingCompany",
-            "drugForm","dosage","packQuantity","inn","atc1", "atc2", "atc3"];
+            "drugForm","dosage","packQuantity","inn","atc1", "atc2", "atc3", "importDate"];
         if (!selectedColumns.includes(field) && triggerFields.includes(field)) {
             setCurrent(field);
             setShowModal(true);
@@ -162,6 +165,8 @@ const ExportDataPage = () => {
                 atc1: atc1,
                 atc2: atc2,
                 atc3: atc3,
+                dateFrom: selectedRange !== null ? selectedRange.dateFrom : dayjs().format("YYYY-MM-DD"),
+                dateTo: selectedRange !== null ? selectedRange.dateTo : dayjs().format("YYYY-MM-DD")
             }, columns: selectedColumns
         };
         try {
@@ -340,6 +345,11 @@ const ExportDataPage = () => {
                                 onChange={setDosage}
                             />
                         )}
+                        {
+                            current === "importDate" && (
+                                <QuarterRangePicker onChange={setSelectedRange}/>
+                            )
+                        }
 
                         <button
                             onClick={() => {
@@ -392,13 +402,11 @@ const styles = {
     container: {
         fontFamily: "sans-serif",
         backgroundColor: "#f9f9f9",
-        minHeight: "100vh",
     },
     section: {
         backgroundColor: "#fff",
         borderRadius: 12,
-        padding: 20,
-        marginBottom: 30,
+        padding: 14,
         boxShadow: "0 0 10px rgba(0,0,0,0.05)",
     },
     title: {
@@ -415,7 +423,7 @@ const styles = {
         display: "flex",
         alignItems: "center",
         gap: 8,
-        fontSize: 14,
+        fontSize: 12,
         cursor: "pointer",
 
     },

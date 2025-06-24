@@ -2,8 +2,6 @@ import React, {useEffect, useState} from "react";
 import axios from "../auth/axios";
 import {useNavigate} from "react-router-dom";
 import MultiSelect from "../components/filter/MultiSelect";
-import dayjs from "dayjs";
-import {getTokenPayload} from "../auth/PrivateRoute";
 import Loader from "../components/Loader";
 import ExcelUpload from "./ExportExcel";
 
@@ -142,6 +140,7 @@ const AdminPage = () => {
             );
             setIsCreating(false);
             getUsersList()
+            setIsCreating(false)
             setNewUser({firstname: "", lastname: "", login: "", password: "", role: "user"});
             return response.data;
 
@@ -440,6 +439,8 @@ const modal = {
     padding: 20,
     borderRadius: 8,
     width: 600,
+    height: "85vh",
+    overflowY: "scroll"
 };
 
 const input = {

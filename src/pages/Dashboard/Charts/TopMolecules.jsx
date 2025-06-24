@@ -33,7 +33,7 @@ const TopMoleculesChart = ({data}) => {
                     <Tooltip formatter={(value, name) => [formatNumber(value), name]}/>
                     <Legend verticalAlign="top"/>
 
-                    <Bar dataKey="totalValue" fill="#135d31" barSize={60}
+                    <Bar dataKey="totalValue" fill="#135d31" barSize={50}
                          radius={[10, 10, 0, 0]}/>
                 </BarChart>
 

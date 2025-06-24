@@ -245,7 +245,18 @@ const DashboardPage = () => {
                 `/api/drugs/top-atc1?metric=${metricATC}`,
                 body
             );
-            setTopATC(response.data)
+            const originalData = response.data
+            const totalPercent = originalData.reduce((sum, item) => sum + item.totalValueInPercent, 0);
+            const totalValue = originalData.reduce((sum, item) => sum + item.totalValue, 0);
+
+            const othersPercent = +(100 - totalPercent).toFixed(2);
+            const othersValue = +(totalValue * (othersPercent / totalPercent)).toFixed(2);
+            setTopATC([...originalData,
+                {
+                    companyName: "Others",
+                    totalValue: othersValue,
+                    totalValueInPercent: othersPercent
+                }])
         } catch (error) {
             console.error("POST error:", error);
         } finally {
@@ -256,6 +267,7 @@ const DashboardPage = () => {
         getTopATC()
     }, [metricATC]);
 
+    console.log("selected molecule", molecule.length)
 
     const [marketLoader, setMarketLoader] = useState(false)
     const getTopMarket = async () => {
@@ -452,7 +464,7 @@ const DashboardPage = () => {
                                             ) : (
                                                 <div style={styles.valueBox}>
                                                     <strong
-                                                        style={{...styles.bigValue, color: 'black'}}> Total Market Volume in SU:</strong>
+                                                        style={{...styles.bigValue, color: 'black'}}> Total Market Volume in Units:</strong>
                                                         <strong
                                                             style={styles.bigValue}> {value && value.length > 0 && formatNumber(value[1].totalValue)}</strong>
                                                 </div>
@@ -465,7 +477,7 @@ const DashboardPage = () => {
                                             <select value={metricATC} onChange={handleMetricATC} style={styles.selectMetric}>
                                                 <option value="valueInUsd">USD</option>
                                                 <option value="valueInGel">Lari</option>
-                                                <option value="volumeInSU">SU</option>
+                                                <option value="volumeInUnits">Units</option>
                                             </select>
                                             {
                                                 atcLoader ? <SectionLoader/> :
@@ -477,7 +489,7 @@ const DashboardPage = () => {
                                             <select value={metricMarket} onChange={handleMetricMarket} style={styles.selectMetric}>
                                                 <option value="valueInUsd">USD</option>
                                                 <option value="valueInGel">Lari</option>
-                                                <option value="volumeInSU">SU</option>
+                                                <option value="volumeInUnits">Units</option>
                                             </select>
                                             {
                                                 marketLoader ? <SectionLoader/> :
@@ -492,7 +504,7 @@ const DashboardPage = () => {
                                             <select value={metricCompany} onChange={handleMetricCompanyChange} style={styles.selectMetric}>
                                                 <option value="valueInUsd">USD</option>
                                                 <option value="valueInGel">Lari</option>
-                                                <option value="volumeInSU">SU</option>
+                                                <option value="volumeInUnits">Units</option>
                                             </select>
                                             {
                                                 companyLoader ? <SectionLoader/> :
@@ -504,7 +516,7 @@ const DashboardPage = () => {
                                                     style={styles.selectMetric}>
                                                 <option  value="valueInUsd">USD</option>
                                                 <option value="valueInGel">Lari</option>
-                                                <option value="volumeInSU">SU</option>
+                                                <option value="volumeInUnits">Units</option>
                                             </select>
                                             {
                                                 productLoader ? <SectionLoader/> :
@@ -520,7 +532,7 @@ const DashboardPage = () => {
                                                     style={styles.selectMetric}>
                                                 <option value="valueInUsd">USD</option>
                                                 <option value="valueInGel">Lari</option>
-                                                <option value="volumeInSU">SU</option>
+                                                <option value="volumeInUnits">Units</option>
                                             </select>
                                             {
                                                 moleculeLoader ? <SectionLoader/> :

@@ -10,6 +10,7 @@ import {
 import {exportToExcelCharts} from "../../../helpers/exportToExcel";
 import ExcelIcon from "../../../assets/excel-icon.png";
 import {RenderCustomLabel} from "../../../helpers/PieCustomLabel";
+import {renderCustomLegend} from "../../../helpers/PieCustomLegend";
 
 
 const COLORS = ["#135d31", "#fb6f5e", "#74C365", "#f39c12", "#95a5a6"];
@@ -30,7 +31,7 @@ const MarketTypeChart = ({data}) => {
                             nameKey="companyName"
                             cx="50%"
                             cy="50%"
-                            outerRadius={92}
+                            outerRadius={80}
                             fill="#8884d8"
                             labelLine={false}
                             label={<RenderCustomLabel/>}
@@ -40,7 +41,7 @@ const MarketTypeChart = ({data}) => {
                             ))}
                         </Pie>
                         <Tooltip/>
-                        <Legend/>
+                        <Legend content={renderCustomLegend} />
                     </PieChart>
                 </ResponsiveContainer>
             </div>

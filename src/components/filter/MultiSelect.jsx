@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import { VariableSizeList as List } from 'react-window';
+import {VariableSizeList as List} from 'react-window';
 
 const MultiSelectMinimal = ({
                                 options,
@@ -33,7 +33,7 @@ const MultiSelectMinimal = ({
     const toggleSelectAll = () => {
         const filteredValues = filtered.map(f => f[valueField]);
         if (isAllSelected) {
-            onChange(selected.filter(val => !filteredValues.includes(val)));
+            onChange(selected.filter(val => !filteredValues.includes(val))); //
         } else {
             const combined = Array.from(new Set([...selected, ...filteredValues]));
             onChange(combined);
@@ -51,7 +51,7 @@ const MultiSelectMinimal = ({
         const text = filtered[index]?.[by] || '';
         const approxLineLength = 30; // сколько символов в строку
         const lines = Math.ceil(text.length / approxLineLength);
-        return lines * 24 + 8; // высота строки * кол-во строк + отступы
+        return (lines>=2 ? 2 : 1) * 24 + 8; // высота строки * кол-во строк + отступы
     };
 
     const Row = ({index, style}) => {
@@ -60,30 +60,46 @@ const MultiSelectMinimal = ({
         const val = opt[valueField];
 
         return (
-            <div style={{...style, fontSize: 16, borderBottom: '1px solid #ddd'}}>
-                <label style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: '4px 8px',
-                    cursor: 'pointer',
-                    minHeight: "20px"
-                }}>
+            <div
+                style={{
+                    ...style,
+                    fontSize: 14,
+                    borderBottom: '1px solid #ddd',
+                    paddingTop: 4,
+                    paddingBottom: 4,
+                    boxSizing: 'border-box'
+                }}
+            >
+                <label
+                    style={{
+                        display: 'flex',
+                        alignItems: 'flex-start',
+                        padding: '4px 8px',
+                        cursor: 'pointer',
+                        gap: 6,
+                    }}
+                >
                     <input
                         type="checkbox"
                         checked={selected.includes(val)}
                         onChange={() => toggleSelect(val)}
-                        style={{marginRight: 6}}
                     />
                     <span style={{
+                        display: '-webkit-box',
+                        WebkitBoxOrient: 'vertical',
+                        WebkitLineClamp: 2,
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
                         whiteSpace: 'normal',
                         wordBreak: 'break-word',
-                        lineHeight: 1.2
+                        fontSize: 14
                     }}>
-      {labelText}
-    </span>
-                </label>
-            </div>
-        );
+                      {labelText}
+                    </span>
+            </label>
+    </div>
+    )
+        ;
     };
 
     return (
@@ -95,7 +111,7 @@ const MultiSelectMinimal = ({
                 width: WIDTH,
                 position: 'relative',
                 fontFamily: 'sans-serif',
-                fontSize: 16,
+                fontSize: 14,
                 color: '#111',
                 marginBottom: '15px'
             }}
@@ -104,7 +120,7 @@ const MultiSelectMinimal = ({
                 <label style={{
                     display: 'block',
                     marginBottom: 4,
-                    fontSize: 16,
+                    fontSize: 12,
                     fontWeight: 'bold',
                     color: '#111'
                 }}>
@@ -145,14 +161,17 @@ const MultiSelectMinimal = ({
                     {options.length > 10 && (
                         <input
                             value={search}
-                            onChange={e => setSearch(e.target.value)}
+                            onChange={e => {
+                                setSearch(e.target.value)
+                                onChange([])
+                            }}
                             placeholder="Search..."
                             style={{
                                 width: '100%',
                                 padding: '4px 8px',
                                 border: 'none',
                                 borderBottom: '1px solid #ccc',
-                                fontSize: 16,
+                                fontSize: 14,
                                 boxSizing: 'border-box'
                             }}
                             autoFocus
@@ -184,13 +203,13 @@ const MultiSelectMinimal = ({
                     {/*    itemSize={48}*/}
                     {/*    width="100%"*/}
                     {/*>*/}
-                        <List
-                            ref={listRef}
-                            height={Math.min(filtered.length, 10) * 48}
-                            itemCount={filtered.length}
-                            itemSize={getItemSize}
-                            width="100%"
-                        >
+                    <List
+                        ref={listRef}
+                        height={Math.min(filtered.length, 10) * 48}
+                        itemCount={filtered.length}
+                        itemSize={getItemSize}
+                        width="100%"
+                    >
                         {Row}
                     </List>
                 </div>
