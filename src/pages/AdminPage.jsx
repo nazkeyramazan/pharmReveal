@@ -286,7 +286,7 @@ const AdminPage = () => {
                             valueField={'id'}
                         />
                         <MultiSelect
-                            label={"Manufacturer"}
+                            label={"Trading License"}
                             options={allManufacturer}
                             selected={manufacturer}
                             valueField={'id'}

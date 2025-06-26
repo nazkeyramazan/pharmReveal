@@ -267,7 +267,6 @@ const DashboardPage = () => {
         getTopATC()
     }, [metricATC]);
 
-    console.log("selected molecule", molecule.length)
 
     const [marketLoader, setMarketLoader] = useState(false)
     const getTopMarket = async () => {
@@ -381,7 +380,7 @@ const DashboardPage = () => {
                                     key={"trade_name"}
                                 />
                                 <MultiSelect
-                                    label={"Manufacturer"}
+                                    label={"Trading License"}
                                     options={allManufacturer}
                                     selected={manufacturer}
                                     onChange={setManufacturer}
