@@ -204,7 +204,7 @@ const DashboardPage = () => {
         setProductLoader(true)
         try {
             const response = await axios.post(
-                `/api/drugs/top-products?metric=${metricCompany}`,
+                `/api/drugs/top-products?metric=${metricProduct}`,
                 body
             );
             setTopProducts(response.data)
@@ -223,7 +223,7 @@ const DashboardPage = () => {
         setMoleculeLoader(true)
         try {
             const response = await axios.post(
-                `/api/drugs/top-molecules?metric=${metricCompany}`,
+                `/api/drugs/top-molecules?metric=${metricMolecule}`,
                 body
             );
             setTopMolecules(response.data)
@@ -273,7 +273,7 @@ const DashboardPage = () => {
         setMarketLoader(true)
         try {
             const response = await axios.post(
-                `/api/drugs/top-segment?metric=${metricATC}`,
+                `/api/drugs/top-segment?metric=${metricMarket}`,
                 body
             );
             setTopMarket(response.data)
@@ -347,10 +347,10 @@ const DashboardPage = () => {
             setValueLoader(false); // Скрыть loader
         }
     };
+
     useEffect(() => {
         getValue()
     }, []);
-
 
     return (
         <div style={styles.container}>
@@ -380,7 +380,7 @@ const DashboardPage = () => {
                                     key={"trade_name"}
                                 />
                                 <MultiSelect
-                                    label={"Trading License"}
+                                    label={"Manufacturer"}
                                     options={allManufacturer}
                                     selected={manufacturer}
                                     onChange={setManufacturer}

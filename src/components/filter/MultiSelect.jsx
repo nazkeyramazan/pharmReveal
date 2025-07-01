@@ -14,7 +14,6 @@ const MultiSelectMinimal = ({
     const wrapperRef = useRef();
     const [search, setSearch] = useState('');
     const [open, setOpen] = useState(false);
-
     const filtered = options.filter(opt =>
         opt?.[by]?.toLowerCase().includes(search.toLowerCase())
     );
@@ -32,13 +31,21 @@ const MultiSelectMinimal = ({
 
     const toggleSelectAll = () => {
         const filteredValues = filtered.map(f => f[valueField]);
+
         if (isAllSelected) {
-            onChange(selected.filter(val => !filteredValues.includes(val))); //
+            // Удаляем из выбранных только видимые (filtered)
+            const newSelection = selected.filter(val => !filteredValues.includes(val));
+            onChange(newSelection);
         } else {
-            const combined = Array.from(new Set([...selected, ...filteredValues]));
-            onChange(combined);
+            // Добавляем только те, которых ещё нет
+            const newSelection = Array.from(new Set([
+                ...selected,
+                ...filteredValues.filter(val => !selected.includes(val))
+            ]));
+            onChange(newSelection);
         }
     };
+
 
     const handleBlur = (e) => {
         if (!wrapperRef.current.contains(e.relatedTarget)) {
@@ -163,7 +170,6 @@ const MultiSelectMinimal = ({
                             value={search}
                             onChange={e => {
                                 setSearch(e.target.value)
-                                onChange([])
                             }}
                             placeholder="Search..."
                             style={{
