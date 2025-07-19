@@ -7,6 +7,7 @@ import ExcelIcon from "../assets/excel-icon.png";
 import MultiSelect from "../components/filter/MultiSelect";
 import QuarterRangePicker from "../components/filter/RangePickerC";
 import dayjs from "dayjs";
+
 const columns = [
     {name: "Year", value: "year"},
     {name: "Segment", value: "segment"},
@@ -39,6 +40,7 @@ const columns2 = [
 ];
 
 const ExportDataPage = () => {
+    /*опции доступные юзеру*/
     const [allMarketTypes, setAllMarketTypes] = useState([]);
     const [allTradeNames, setAllTradeNames] = useState([]);
     const [allManufacturer, setAllManufacturer] = useState([]);
@@ -49,10 +51,25 @@ const ExportDataPage = () => {
     const [allDosageForm, setAllDosageForm] = useState([]);
     const [allPackageSize, setAllPackageSize] = useState([]);
     const [allDosage, setAllDosage] = useState([]);
+    const [allPersonWithTradingLicense, setAllPersonWithTradingLicense] = useState([]);
+    const [allPersonInterestedInRegistrationGeorgiaStand, setAllPersonInterestedInRegistrationGeorgiaStand] = useState([]);
+    const [allInterestedParty, setAllInterestedParty] = useState([]);
+    const [allRxOtc, setAllRxOtc] = useState([]);
+    const [allModeOfRegistration, setAllModeOfRegistration] = useState([]);
+    const [allSku, setAllSku] = useState([]);
+    const [allPriceSource, setAllPriceSource] = useState([]);
 
-    const [marketType, setMarketType] = useState([]);
+    /*опции выбранные из доступных юзером по дефолту выбраны все достуные*/
+    const [marketType, setMarketType] = useState([]); //
     const [tradeName, setTradeName] = useState([]);
     const [manufacturer, setManufacturer] = useState([]);
+    const [personWithTradingLicense, setPersonWithTradingLicense] = useState([]);
+    const [personInterestedInRegistrationGeorgiaStand, setPersonInterestedInRegistrationGeorgiaStand] = useState([]);
+    const [interestedParty, setInterestedParty] = useState([]);
+    const [rxOtc, setRxOtc] = useState([]);
+    const [modeOfRegistration, setModeOfRegistration] = useState([]);
+    const [sku, setSku] = useState([]);
+    const [priceSource, setPriceSource] = useState([]);
     const [molecule, setMolecule] = useState([]);
     const [atc1, setATC1] = useState([]);
     const [atc2, setATC2] = useState([]);
@@ -62,12 +79,34 @@ const ExportDataPage = () => {
     const [dosage, setDosage] = useState([]);
     const payload = getTokenPayload();
     const [selectedRange, setSelectedRange] = useState(null);
-
-
+    const valueLengths = {
+        //year: marketType?.length || 0,
+        segment: marketType?.length || 0,
+        tradeName: tradeName?.length || 0,
+        manufacturingCompany: manufacturer?.length || 0,
+        personWithTradingLicense: personWithTradingLicense?.length || 0,
+        personInterestedInRegistrationGeorgiaStand: personInterestedInRegistrationGeorgiaStand?.length || 0,
+        interestedParty: interestedParty?.length || 0,
+        rxOtc: rxOtc?.length || 0,
+        modeOfRegistration: modeOfRegistration?.length || 0,
+        sku: sku?.length || 0,
+        drugForm: dosageForm?.length || 0,
+        dosage: dosage?.length || 0,
+        packQuantity: packageSize?.length || 0,
+        inn: molecule?.length || 0,
+        atc1: atc1?.length || 0,
+        atc2: atc2?.length || 0,
+        atc3: atc3?.length || 0,
+        // pricePerUnitLari: atc3?.length || 0,
+        // pricePerUnitUsd: atc3?.length || 0,
+        importDate: selectedRange !== null ? "Date From: " + selectedRange?.dateFrom + " Date To: " + selectedRange?.dateFrom : "Date From: " + dayjs().subtract(1, 'year').format("YYYY-MM-DD") + "Date To: " + dayjs().format("YYYY-MM-DD"),
+        priceSource: priceSource?.length || 0,
+    }
     const fetchAll = async () => {
         setLoading(true);
         try {
-            const [res1, res2, res3, res4, res5, res6, res7, res8, res9, res10] = await Promise.all([
+            const [res1, res2, res3, res4, res5, res6, res7, res8, res9, res10, res11, res12, res13, res14, res15, res16, res17
+            ] = await Promise.all([
                 axios.get(`/api/user-access/reference/segment?userId=${payload.id}`),
                 axios.get(`/api/user-access/reference/trade-name?userId=${payload.id}`),
                 axios.get(`/api/user-access/reference/manufacturing-company?userId=${payload.id}`),
@@ -78,6 +117,15 @@ const ExportDataPage = () => {
                 axios.get(`/api/user-access/reference/dosage?userId=${payload.id}`),
                 axios.get(`/api/user-access/reference/pack-quantities?userId=${payload.id}`),
                 axios.get(`/api/user-access/reference/drug-form?userId=${payload.id}`),
+
+                axios.get(`/api/user-access/reference/sku?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/rx-otc?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/price-source?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/person-with-trading-license?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/person-interested-in-registration-georgia-stand?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/mode-of-registration?userId=${payload.id}`),
+                axios.get(`/api/user-access/reference/interested-party?userId=${payload.id}`),
+
             ]);
             setAllMarketTypes(res1.data);
             setMarketType(res1.data.map(opt => opt.name))
@@ -108,6 +156,27 @@ const ExportDataPage = () => {
 
             setAllDosageForm(res10.data); // сохраняем ответ drug-form
             setDosageForm(res10.data.map(opt => opt.name))
+
+            setAllSku(res11.data);
+            setSku(res11.data.map(opt => opt.name))
+
+            setAllRxOtc(res12.data); // сохраняем ответ drug-form
+            setRxOtc(res12.data.map(opt => opt.name))
+
+            setAllPriceSource(res13.data); // сохраняем ответ drug-form
+            setPriceSource(res13.data.map(opt => opt.name))
+
+            setAllPersonWithTradingLicense(res14.data); // сохраняем ответ drug-form
+            setPersonWithTradingLicense(res14.data.map(opt => opt.name))
+
+            setAllPersonInterestedInRegistrationGeorgiaStand(res15.data); // сохраняем ответ drug-form
+            setPersonInterestedInRegistrationGeorgiaStand(res15.data.map(opt => opt.name))
+
+            setAllModeOfRegistration(res16.data); // сохраняем ответ drug-form
+            setModeOfRegistration(res16.data.map(opt => opt.name))
+
+            setAllInterestedParty(res17.data); // сохраняем ответ drug-form
+            setInterestedParty(res17.data.map(opt => opt.name))
         } catch (e) {
             console.error("Error fetching data", e);
         } finally {
@@ -119,17 +188,28 @@ const ExportDataPage = () => {
     }, []);
     const [loading, setLoading] = useState(false);
     const [selectedColumns, setSelectedColumns] = useState(["volumeInUnits"]);
-
+    const [selected, setSelected] = useState([{name: "Volume Units", value: "volumeInUnits"}]);
     const toggleColumn = (col) => {
+        setSelected(prev => {
+            const exists = prev.some(item => item.value === col.value);
+            if (exists) {
+                return prev.filter(item => item.value !== col.value); // убрать
+            } else {
+                return [...prev, col]; // добавить
+            }
+        });
+
         setSelectedColumns((prev) =>
-            prev.includes(col) ? prev.filter((c) => c !== col) : [...prev, col]
+            prev.includes(col.value) ? prev.filter((c) => c !== col.value) : [...prev, col.value]
         );
     };
     const handleCheckboxToggle = (field) => {
-        const triggerFields = ["segment", "tradeName","manufacturingCompany",
-            "drugForm","dosage","packQuantity","inn","atc1", "atc2", "atc3", "importDate"];
-        if (!selectedColumns.includes(field) && triggerFields.includes(field)) {
-            setCurrent(field);
+        const triggerFields = ["segment", "tradeName", "manufacturingCompany",
+            "drugForm", "dosage", "packQuantity", "inn", "atc1", "atc2", "atc3", "importDate"
+            ,"sku","rxOtc","priceSource","personWithTradingLicense","personInterestedInRegistrationGeorgiaStand",
+            "modeOfRegistration","interestedParty"];
+        if (!selectedColumns.includes(field.value) && triggerFields.includes(field.value)) {
+            setCurrent(field.value);
             setShowModal(true);
         }
         toggleColumn(field);
@@ -165,7 +245,16 @@ const ExportDataPage = () => {
                 atc1: atc1,
                 atc2: atc2,
                 atc3: atc3,
-                dateFrom: selectedRange !== null ? selectedRange.dateFrom : dayjs().format("YYYY-MM-DD"),
+
+                sku: sku,
+                rxOtc: rxOtc,
+                priceSource: priceSource,
+                personWithTradingLicense: personWithTradingLicense,
+                personInterestedInRegistrationGeorgiaStand: personInterestedInRegistrationGeorgiaStand,
+                modeOfRegistration: modeOfRegistration,
+                interestedParty: interestedParty,
+
+                dateFrom: selectedRange !== null ? selectedRange.dateFrom : dayjs().subtract(1, 'year').format("YYYY-MM-DD"),
                 dateTo: selectedRange !== null ? selectedRange.dateTo : dayjs().format("YYYY-MM-DD")
             }, columns: selectedColumns
         };
@@ -209,7 +298,7 @@ const ExportDataPage = () => {
                                 <input
                                     type="checkbox"
                                     checked={selectedColumns.includes(col.value)}
-                                    onChange={() => handleCheckboxToggle(col.value)}
+                                    onChange={() => handleCheckboxToggle(col)}
                                 />
                                 <span>{col.name}</span>
                             </label>
@@ -239,14 +328,24 @@ const ExportDataPage = () => {
 
             <div style={styles.footer}>
                 <p style={{fontWeight: "bold", marginBottom: "10px"}}>
-                    {selectedColumns.length} columns selected | Format: {selectedColumns2.join(", ")}
+                    {selectedColumns.length - selectedColumns2.length} columns selected | Format: {selectedColumns2.join(", ")}
                 </p>
 
                 {loading ? <Loader/> :
                     <button onClick={() => downloadExcel()} style={{border: "none"}}>
-                    <img src={ExcelIcon} alt="Excel Icon" style={styles.icon}/>
+                        <img src={ExcelIcon} alt="Excel Icon" style={styles.icon}/>
                     </button>
                 }
+            </div>
+            <div style={styles.selectedContainer}>
+                {selected.map(item => {
+                    if (valueLengths[item.value] !== undefined) {
+                        return <p key={item.value}>{item.name} - {valueLengths[item.value]} items selected</p>;
+                    }
+                    return null;
+                })}
+
+
             </div>
             {showModal && (
                 <div style={modalBackdrop}>
@@ -343,6 +442,63 @@ const ExportDataPage = () => {
                                 options={allDosage}
                                 selected={dosage}
                                 onChange={setDosage}
+                            />
+                        )}
+
+                        {current === "sku" && (
+                            <MultiSelect
+                                label="Sku"
+                                options={allSku}
+                                selected={sku}
+                                onChange={setSku}
+                            />
+                        )}
+                        {current === "priceSource" && (
+                            <MultiSelect
+                                label="Price Source"
+                                options={allPriceSource}
+                                selected={priceSource}
+                                onChange={setPriceSource}
+                            />
+                        )}
+                        {current === "rxOtc" && (
+                            <MultiSelect
+                                label="rxOtc"
+                                options={allRxOtc}
+                                selected={rxOtc}
+                                onChange={setRxOtc}
+                            />
+                        )}
+                        {current === "personWithTradingLicense" && (
+                            <MultiSelect
+                                label="Person With Trading License"
+                                options={allPersonWithTradingLicense}
+                                selected={personWithTradingLicense}
+                                onChange={setPersonWithTradingLicense}
+                            />
+                        )}
+                        {current === "personInterestedInRegistrationGeorgiaStand" && (
+                            <MultiSelect
+                                label="Person Interested In Registration Georgia Stand"
+                                options={allPersonInterestedInRegistrationGeorgiaStand}
+                                selected={personInterestedInRegistrationGeorgiaStand}
+                                onChange={setPersonInterestedInRegistrationGeorgiaStand}
+                            />
+                        )}
+                        {current === "modeOfRegistration" && (
+                            <MultiSelect
+                                label="Mode Of Registration"
+                                options={allModeOfRegistration}
+                                selected={modeOfRegistration}
+                                onChange={setModeOfRegistration}
+                            />
+                        )}
+                        {current === "interestedParty" && (
+                            <MultiSelect
+                                label="Interested Party"
+                                options={allInterestedParty}
+                                selected={interestedParty}
+                                onChange={setInterestedParty}
                             />
                         )}
                         {
@@ -472,6 +628,15 @@ const styles = {
         padding: 20,
         borderRadius: 12,
         boxShadow: "0 0 10px rgba(0,0,0,0.05)",
+    },
+    selectedContainer: {
+        display: "flex",
+        flexDirection: "column",
+        backgroundColor: "#fff",
+        padding: 20,
+        borderRadius: 12,
+        boxShadow: "0 0 10px rgba(0,0,0,0.05)",
+        gap: 2
     },
     button: {
         padding: "10px 20px",

@@ -17,7 +17,13 @@ const AdminPage = () => {
     const [allDosageForm, setAllDosageForm] = useState([]);
     const [allPackageSize, setAllPackageSize] = useState([]);
     const [allDosage, setAllDosage] = useState([]);
-
+    const [allPersonWithTradingLicense, setAllPersonWithTradingLicense] = useState([]);
+    const [allPersonInterestedInRegistrationGeorgiaStand, setAllPersonInterestedInRegistrationGeorgiaStand] = useState([]);
+    const [allInterestedParty, setAllInterestedParty] = useState([]);
+    const [allRxOtc, setAllRxOtc] = useState([]);
+    const [allModeOfRegistration, setAllModeOfRegistration] = useState([]);
+    const [allSku, setAllSku] = useState([]);
+    const [allPriceSource, setAllPriceSource] = useState([]);
 
     const [marketType, setMarketType] = useState([]);
     const [tradeName, setTradeName] = useState([]);
@@ -29,12 +35,20 @@ const AdminPage = () => {
     const [dosageForm, setDosageForm] = useState([]);
     const [packageSize, setPackageSize] = useState([]);
     const [dosage, setDosage] = useState([]);
+    const [personWithTradingLicense, setPersonWithTradingLicense] = useState([]);
+    const [personInterestedInRegistrationGeorgiaStand, setPersonInterestedInRegistrationGeorgiaStand] = useState([]);
+    const [interestedParty, setInterestedParty] = useState([]);
+    const [rxOtc, setRxOtc] = useState([]);
+    const [modeOfRegistration, setModeOfRegistration] = useState([]);
+    const [sku, setSku] = useState([]);
+    const [priceSource, setPriceSource] = useState([]);
+
     const [filterLoader, setFilterLoader] = useState(false)
 
     const fetchUserAccess = async (id) => {
         setFilterLoader(true);
         try {
-            const [res1, res2, res3, res4, res5, res6, res7, res8, res9, res10] = await Promise.all([
+            const [res1, res2, res3, res4, res5, res6, res7, res8, res9, res10,res11,res12,res13,res14,res15,res16,res17] = await Promise.all([
                 axios.get(`/api/user-access/reference/segment?userId=${id}`),
                 axios.get(`/api/user-access/reference/trade-name?userId=${id}`),
                 axios.get(`/api/user-access/reference/manufacturing-company?userId=${id}`),
@@ -45,6 +59,14 @@ const AdminPage = () => {
                 axios.get(`/api/user-access/reference/dosage?userId=${id}`),
                 axios.get(`/api/user-access/reference/pack-quantities?userId=${id}`),
                 axios.get(`/api/user-access/reference/drug-form?userId=${id}`),
+
+                axios.get(`/api/user-access/reference/sku?userId=${id}`),
+                axios.get(`/api/user-access/reference/rx-otc?userId=${id}`),
+                axios.get(`/api/user-access/reference/price-source?userId=${id}`),
+                axios.get(`/api/user-access/reference/person-with-trading-license?userId=${id}`),
+                axios.get(`/api/user-access/reference/person-interested-in-registration-georgia-stand?userId=${id}`),
+                axios.get(`/api/user-access/reference/mode-of-registration?userId=${id}`),
+                axios.get(`/api/user-access/reference/interested-party?userId=${id}`),
             ]);
             setMarketType(res1.data.map(opt => opt.id))
 
@@ -65,6 +87,20 @@ const AdminPage = () => {
             setPackageSize(res9.data.map(opt => opt.id))
 
             setDosageForm(res10.data.map(opt => opt.id))
+
+            setSku(res11.data.map(opt => opt.id))
+
+            setRxOtc(res12.data.map(opt => opt.id))
+
+            setPriceSource(res13.data.map(opt => opt.id))
+
+            setPersonWithTradingLicense(res14.data.map(opt => opt.id))
+
+            setPersonInterestedInRegistrationGeorgiaStand(res15.data.map(opt => opt.id))
+
+            setModeOfRegistration(res16.data.map(opt => opt.id))
+
+            setInterestedParty(res17.data.map(opt => opt.id))
         } catch (e) {
             console.error("Error fetching data", e);
         } finally {
@@ -74,7 +110,7 @@ const AdminPage = () => {
     const fetchAll = async () => {
         setFilterLoader(true);
         try {
-            const [res1, res2, res3, res4, res5, res6, res7, res8, res9, res10] = await Promise.all([
+            const [res1, res2, res3, res4, res5, res6, res7, res8, res9, res10,res11,res12,res13,res14,res15,res16,res17] = await Promise.all([
                 axios.get("/api/reference/segment"),
                 axios.get("/api/reference/trade-name"),
                 axios.get("/api/reference/manufacturing-company"),
@@ -85,6 +121,15 @@ const AdminPage = () => {
                 axios.get("/api/reference/dosage"),
                 axios.get("/api/reference/pack-quantities"),
                 axios.get("/api/reference/drug-form"),
+
+                axios.get("/api/reference/sku"),
+                axios.get("/api/reference/rx-otc"),
+                axios.get("/api/reference/price-source"),
+                axios.get("/api/reference/person-with-trading-license"),
+                axios.get("/api/reference/person-interested-in-registration-georgia-stand"),
+                axios.get("/api/reference/mode-of-registration"),
+                axios.get("/api/reference/interested-party"),
+
             ]);
             setAllMarketTypes(res1.data);
             setAllTradeNames(res2.data); // сохраняем ответ
@@ -96,6 +141,14 @@ const AdminPage = () => {
             setAllDosage(res8.data); // сохраняем ответ drug-form
             setAllPackageSize(res9.data); // сохраняем ответ drug-form
             setAllDosageForm(res10.data); // сохраняем ответ drug-form
+
+            setAllSku(res11.data)
+            setAllRxOtc(res12.data)
+            setAllPriceSource(res13.data)
+            setAllPersonWithTradingLicense(res14.data)
+            setAllPersonInterestedInRegistrationGeorgiaStand(res15.data);
+            setAllModeOfRegistration(res16.data)
+            setAllInterestedParty(res17.data)
         } catch (e) {
             console.error("Error fetching data", e);
         } finally {
@@ -169,7 +222,14 @@ const AdminPage = () => {
                     {refType: "ATC3", refIds: atc3},
                     {refType: "DRUG_FORM", refIds: dosageForm},
                     {refType: "PACK_QUANTITY", refIds: packageSize},
-                    {refType: "DOSAGE", refIds: dosage}
+                    {refType: "DOSAGE", refIds: dosage},
+                    {refType: "PERSON_WITH_TRADING_LICENSE", refIds: personWithTradingLicense},
+                    {refType: "PERSON_INTERESTED_IN_REGISTRATION_GEORGIA_STAND", refIds: personInterestedInRegistrationGeorgiaStand},
+                    {refType: "INTERESTED_PARTY", refIds: interestedParty},
+                    {refType: "RX_OTC", refIds: rxOtc},
+                    {refType: "MODE_OF_REGISTRATION", refIds: modeOfRegistration},
+                    {refType: "SKU", refIds: sku},
+                    {refType: "PRICE_SOURCE", refIds: priceSource},
                 ]
             });
         } catch (error) {
@@ -341,7 +401,55 @@ const AdminPage = () => {
                             valueField={'id'}
                             onChange={setDosage}
                         />
-
+                        <MultiSelect
+                            label={"Person with Trading License"}
+                            options={allPersonWithTradingLicense}
+                            selected={personWithTradingLicense}
+                            valueField={'id'}
+                            onChange={setPersonWithTradingLicense}
+                        />
+                        <MultiSelect
+                            label={"Person Interested In Registration Georgia Stand"}
+                            options={allPersonInterestedInRegistrationGeorgiaStand}
+                            selected={personInterestedInRegistrationGeorgiaStand}
+                            valueField={'id'}
+                            onChange={setPersonInterestedInRegistrationGeorgiaStand}
+                        />
+                        <MultiSelect
+                            label={"Interested Party"}
+                            options={allInterestedParty}
+                            selected={interestedParty}
+                            valueField={'id'}
+                            onChange={setInterestedParty}
+                        />
+                        <MultiSelect
+                            label={"rxOtc"}
+                            options={allRxOtc}
+                            selected={rxOtc}
+                            valueField={'id'}
+                            onChange={setRxOtc}
+                        />
+                        <MultiSelect
+                            label={"Mode Of Registration"}
+                            options={allModeOfRegistration}
+                            selected={modeOfRegistration}
+                            valueField={'id'}
+                            onChange={setModeOfRegistration}
+                        />
+                        <MultiSelect
+                            label={"SKU"}
+                            options={allSku}
+                            selected={sku}
+                            valueField={'id'}
+                            onChange={setSku}
+                        />
+                        <MultiSelect
+                            label={"Price Source"}
+                            options={allPriceSource}
+                            selected={priceSource}
+                            valueField={'id'}
+                            onChange={setPriceSource}
+                        />
                         {/*{*/}
                         {/*    !filterLoader ? <Loader/> :*/}
                         <button

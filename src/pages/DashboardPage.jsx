@@ -301,7 +301,7 @@ const DashboardPage = () => {
             atc1: atc1,
             atc2: atc2,
             atc3: atc3,
-            dateFrom: selectedRange !== null ? selectedRange.dateFrom : dayjs().format("YYYY-MM-DD"),
+            dateFrom: selectedRange !== null ? selectedRange.dateFrom : dayjs().subtract(1, 'year').format("YYYY-MM-DD"),
             dateTo: selectedRange !== null ? selectedRange.dateTo : dayjs().format("YYYY-MM-DD")
         };
         try {
